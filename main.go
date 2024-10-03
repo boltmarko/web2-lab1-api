@@ -99,6 +99,8 @@ func main() {
 		log.Println(".env file not found, proceeding...")
 	}
 
+	clientURL := os.Getenv("CLIENT_URL")
+
 	router := http.NewServeMux()
 
 	router.Handle("GET /api/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -177,7 +179,7 @@ func main() {
 				return
 			}
 
-			url := "http://localhost:8080/" + ticket.ID.String()
+			url := clientURL + "/" + ticket.ID.String()
 			png, err := qrcode.Encode(url, qrcode.Medium, 256)
 			if err != nil {
 				http.Error(w, "Error generating QR code", http.StatusInternalServerError)
